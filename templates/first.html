@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div id="what">
+    <h1>What did you buy?</h1>
+
+    <select class="selectpicker">
+        <option>Gym membership</option>
+        <option>Bicycle</option>
+        <option>Crossfit membership</option>
+    </select>
+
+    <button type="submit" class="btn">next</button>
+</div>
+
+<div id="how_much" class="hidden">
+    <h1>How much did your <span id="thingy"></span> cost?</h1>
+    <form class="form-inline">
+        <input type="text" class="input-small" id="cost" placeholder="$">
+        <button type="submit" class="btn">next</button>
+    </form>
+</div>
+
+<div id="how_many_times" class="hidden">
+    <h1>How many times did you use your <span class="thingy"></span> so far?<h1>
+    <form class="form-inline">
+        <input type="text" class="input-small" placeholder="0" id="how_often">
+        <button type="submit" class="btn">next</button>
+    </form>
+</div>
+
+
+<div id="result" class="hidden">
+    <h1>So far, you've used your <span class="thingy"></span> <span class="frequency"></span> times so your cost per use is <span id="calculation"></span></h1>
+</div>
+
+<div id="sign_up">Sign up to keep track of your results.</div>
+
+{% endblock %}
