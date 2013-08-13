@@ -58,33 +58,16 @@ def login():
         session['email'] = request.form['email']
         session['password'] = request.form['password']
 
-        response = requests.get("https://www.hackerschool.com/auth",
-                            params={"email":session['email'], "password": session['password']})
+        # does this person exist on the db
+        myuser = models.User.query.filter_by(email=session['email']).first()
 
-        # check response status
-        if response.status_code == 200:
-            userinfo = json.loads(response.content)
-
-            # does this person exist on the db
-            myuser = models.User.query.filter_by(email=session['email']).first()
-
-            if not myuser:
-
-                u = models.User()
-                u.email = session['email']
-                models.db.session.add(u)
-                models.db.session.commit()
-                myuser = u
-                # return "you're not in the db mofo but we added you"
-                # start the session
-                # go to the index page
-            # return "valid login"
-
-            return redirect(url_for('index'))
+        if not myuser:
+        # we should flash a message
+            return redirect(url_for('login'))
 
         else:
-            # we should flash a message here
-            return redirect(url_for('login'))
+            session['user'] = myuser
+            return redirect(url_for('user'))
 
 
 @app.route('/logout')
@@ -92,6 +75,27 @@ def logout():
     session.clear()
     return redirect(url_for("login"))
 
+
+@app.route('/user')
+def user():
+    return render_template("user.html", user=session['user'])
+
+
+@app.route('/update', methods=["POST"])
+def update():
+    u = session['user']
+    add_times = int(request.form['update_frequency'])
+    # TODO verify is number
+    times = int(u.frequency);
+    new_frequency = times + add_times;
+    # should probs be an int to start
+    # return str(new_frequency);
+    u.frequency = new_frequency;
+    models.db.session.add(u);
+    models.db.session.commit();
+    session['user'] = u;
+    return render_template("user.html", user=u);
+#
 @app.route('/week/')
 @login_required
 def index():

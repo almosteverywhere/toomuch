@@ -64,6 +64,11 @@ $(document).ready(function() {
        $("input[name='submit_frequency']").val(how_many_times);
    });
 
+   $("#update a").click(function(event){
+//      alert("update");
+   $("#update_form").removeClass("hidden");
+   });
+
    //if the user clicks sign up, we want to just show a sign in form
 
 

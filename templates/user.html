@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<p>{{ user.email }}, so far you've used your {{ user.thingy }} {{  user.frequency }} times
+so your cost per use is {% set cost_per_use = user.cost|int / user.frequency|int %} {{ cost_per_use }}. </p>
+
+<div id="update"><p><a href="#">Update your times</a> and lower your cost per use!</p>
+
+<div id="update_form" class="hidden">
+
+<P>How many more times have you used your thingy?</P>
+
+<form class="form-inline" method="post" action="update">
+        <input type="text" class="input-small" name="update_frequency" placeholder="X">
+        <button type="submit" class="btn">Update</button>
+    </form>
+
+</div>
+
+
+{% endblock %}
+
+
+
+
+
