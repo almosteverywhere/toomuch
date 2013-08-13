@@ -22,9 +22,8 @@ def login_required(f):
 
 @app.route('/')
 def hello_world():
-    return redirect('/login')
+    return redirect('/first')
 
-@app.route('/')
 
 @app.route('/first')
 def first():
@@ -35,7 +34,20 @@ def signup():
     if request.method == "GET":
         return render_template("signup.html")
     if request.method == "POST":
-        return "thanks"
+        u = models.User()
+        u.email = request.form['email']
+        u.password = request.form['password']
+        u.cost = request.form['submit_cost']
+        u.frequency = request.form['submit_frequency']
+        u.thingy = request.form['submit_thingy']
+        models.db.session.add(u)
+        models.db.session.commit()
+        # mythingy = request.form['submit_thingy']
+        # mycost = request.form['submit_cost']
+        # myfrequency = request.form['submit_frequency']
+        # create a thing that goes in the database
+
+        return "mythingy is" + u.thingy + u.cost + u.frequency
 
 @app.route('/login', methods=["POST", "GET"])
 def login():

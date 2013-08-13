@@ -58,6 +58,10 @@ $(document).ready(function() {
    $("#result a").click(function(){
        $("#result").fadeOut();
        $("#sign_up_form").removeClass("hidden");
+       $("input[name='submit_thingy']").val(what);
+       //ug my naming scheme is terrible
+       $("input[name='submit_cost']").val(how_much);
+       $("input[name='submit_frequency']").val(how_many_times);
    });
 
    //if the user clicks sign up, we want to just show a sign in form
