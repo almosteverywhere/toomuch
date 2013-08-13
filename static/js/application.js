@@ -12,7 +12,8 @@ $(document).ready(function() {
    var how_much = "";
    var how_many_times = "";
 
-   $("#what button").click(function(){
+   $("#what button").click(function(event){
+       event.preventDefault();
        //alert("click on next");
        $("#id option:selected").val();
        what = $("#what option:selected").val();
@@ -23,17 +24,19 @@ $(document).ready(function() {
 
    });
 
-    $("#how_much button").click(function(){
+    $("#how_much button").click(function(event){
        //alert("click on next");
+       event.preventDefault();
        //todo, error handling here, what if no value
         how_much = $("#cost").val();
-       // alert(how_much);
+       //alert(how_much);
        $("#how_much").fadeOut();
        $("#how_many_times").removeClass("hidden");
 
    });
 
-   $("#how_many_times button").click(function(){
+   $("#how_many_times button").click(function(event){
+       event.preventDefault();
        //alert("click on next");
        //TODO error handling in case no value
 
@@ -52,6 +55,12 @@ $(document).ready(function() {
 
    });
 
+   $("#result a").click(function(){
+       $("#result").fadeOut();
+       $("#sign_up_form").removeClass("hidden");
+   });
+
+   //if the user clicks sign up, we want to just show a sign in form
 
 
 

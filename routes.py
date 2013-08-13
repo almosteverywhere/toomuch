@@ -24,9 +24,18 @@ def login_required(f):
 def hello_world():
     return redirect('/login')
 
+@app.route('/')
+
 @app.route('/first')
 def first():
     return render_template("first.html")
+
+@app.route('/signup', methods=["POST", "GET"])
+def signup():
+    if request.method == "GET":
+        return render_template("signup.html")
+    if request.method == "POST":
+        return "thanks"
 
 @app.route('/login', methods=["POST", "GET"])
 def login():

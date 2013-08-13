@@ -22,18 +22,27 @@
 </div>
 
 <div id="how_many_times" class="hidden">
-    <h1>How many times did you use your <span class="thingy"></span> so far?<h1>
+    <h1>How many times did you use your <span class="thingy"></span> so far?</h1>
     <form class="form-inline">
         <input type="text" class="input-small" placeholder="0" id="how_often">
         <button type="submit" class="btn">next</button>
     </form>
 </div>
 
-
 <div id="result" class="hidden">
     <h1>So far, you've used your <span class="thingy"></span> <span class="frequency"></span> times so your cost per use is <span id="calculation"></span></h1>
+    <div id="sign_up">
+        <h1><a href="#">Sign up</a> to keep track of your results and see your cost go down!</h1>
+    </div>
 </div>
 
-<div id="sign_up">Sign up to keep track of your results.</div>
+<div id="sign_up_form" class="hidden">
+     <form class="form-inline" method="post" action="signup" id="signup">
+        <input type="text" class="input-small" id="email" placeholder="Email">
+        <input type="text" class="input-small" id="password" placeholder="Password">
+        <button type="submit" class="btn">Sign me up!</button>
+    </form>
+</div>
+
 
 {% endblock %}
