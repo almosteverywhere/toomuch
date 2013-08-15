@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, session, url_for, g
+from flask import Flask, render_template, flash, request, redirect, session, url_for, g
 from functools import wraps
 import requests, json
 import models
@@ -60,13 +60,16 @@ def login():
 
         # does this person exist on the db
         myuser = models.User.query.filter_by(email=session['email']).first()
+        # FIXME! Validate the password, duh
 
         if not myuser:
         # we should flash a message
-            return redirect(url_for('login'))
+            error = "Invalid user or password."
+            return render_template("login.html", error=error)
 
         else:
             session['user'] = myuser
+            flash("You were successfully logged in.")
             return redirect(url_for('user'))
 
 
