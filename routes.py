@@ -55,23 +55,24 @@ def login():
         return render_template("login.html")
 
     if request.method == "POST":
-        session['email'] = request.form['email']
-        session['password'] = request.form['password']
 
-        # does this person exist on the db
-        myuser = models.User.query.filter_by(email=session['email']).first()
-        # FIXME! Validate the password, duh
+        email = request.form['email']
+        password = request.form['password']
 
-        if not myuser:
-        # we should flash a message
-            error = "Invalid user or password."
-            return render_template("login.html", error=error)
+        # do we know this person?
+        myuser = models.User.query.filter_by(email=email).first()
 
-        else:
+        # what if myuser is null
+        if myuser and myuser.password == password:
+        # session['email'] = email
+        # session['password'] = password
             session['user'] = myuser
             flash("You were successfully logged in.")
             return redirect(url_for('user'))
 
+        else:
+            error = "Invalid user or password."
+            return render_template("login.html", error=error)
 
 @app.route('/logout')
 def logout():
