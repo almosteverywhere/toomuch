@@ -42,12 +42,12 @@ def signup():
         u.thingy = request.form['submit_thingy']
         models.db.session.add(u)
         models.db.session.commit()
-        # mythingy = request.form['submit_thingy']
-        # mycost = request.form['submit_cost']
-        # myfrequency = request.form['submit_frequency']
-        # create a thing that goes in the database
 
-        return "mythingy is" + u.thingy + u.cost + u.frequency
+        # FIXME: can we redirect to login instead of doing it again?
+        myuser = models.User.query.filter_by(email=u.email).first()
+        session['user'] = myuser
+        flash("Thanks for signing up!", 'success')
+        return redirect(url_for('user'))
 
 @app.route('/login', methods=["POST", "GET"])
 def login():
@@ -62,12 +62,12 @@ def login():
         # do we know this person?
         myuser = models.User.query.filter_by(email=email).first()
 
-        # what if myuser is null
+        # FIXME: what if myuser is null
         if myuser and myuser.password == password:
         # session['email'] = email
         # session['password'] = password
             session['user'] = myuser
-            flash("You were successfully logged in.")
+            flash(u"You were successfully logged in.", 'error')
             return redirect(url_for('user'))
 
         else:

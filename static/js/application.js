@@ -17,7 +17,7 @@ $(document).ready(function() {
        //alert("click on next");
        $("#id option:selected").val();
        what = $("#what option:selected").val();
-       $(".thingy").text(what);
+       $(".thingy").text(what.toLowerCase());
        //alert(what);
        $("#what").fadeOut();
        $("#how_much").removeClass("hidden");
