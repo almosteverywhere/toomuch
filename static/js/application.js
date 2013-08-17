@@ -69,40 +69,4 @@ $(document).ready(function() {
    $("#update_form").removeClass("hidden");
    });
 
-   //if the user clicks sign up, we want to just show a sign in form
-
-
-
-
-//    $("#add").click(function(){
-//        var newRow = $("#template_row").clone().removeClass("hidden").attr("id", rowCounter).appendTo("#task_table");
-//        //fixme: this could just bind the first one
-//        newRow.find('.title').editable();
-//
-//        newRow.find('.number').editable();
-//        newRow.find('.number').on('save', function(e, params) {
-//
-//            var mynum = parseInt(params.newValue);
-//            var myHomeOfSquares = $(this).closest(".todo").find(".home_of_squares");
-//            myHomeOfSquares.empty();
-//            for (var i = 0; i < mynum; i++){
-//                //fixme this needs to be the specific one
-//                var squares = $(".square").first().clone().removeClass("hidden");
-//                myHomeOfSquares.append('<div class="square"></div>');
-//
-//                console.log($(this).closest(".home_of_squares"), this);
-//
-//            }
-//        });
-//
-//        newRow.find(".home_of_squares").on( 'click', '.square', function() {
-//            $(this).toggleClass("completed");
-//            $(this).prevAll().addClass("completed");
-//        });
-//
-//        newRow.find('.quantity').editable();
-//        newRow.find(".thingy").selectpicker();
-//
-//    });
-
 });

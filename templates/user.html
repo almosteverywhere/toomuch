@@ -2,10 +2,14 @@
 
 {% block content %}
 
-<p>{{ user.email }}, so far you've used your {{ user.thingy }} {{  user.frequency }} times
-so your cost per use is {% set cost_per_use = user.cost|int / user.frequency|int %} {{ cost_per_use }}. </p>
+<p class="lead">{{ user.name }},</br>
+You paid {{ user.cost }}$ </br>
+for your  {{ user.thingy|lower }}
+and you've used it: {{  user.frequency }} times </br>
+so your cost per use is {% set cost_per_use = user.cost|int / user.frequency|int %}
+    {{ cost_per_use }}$. </p>
 
-<div id="update"><p><a href="#">Update your times</a> and lower your cost per use!</p>
+<div id="update"><h2 class="muted"><a href="#">Update your times</a> and lower your cost per use!</h2>
 
 <div id="update_form" class="hidden">
 

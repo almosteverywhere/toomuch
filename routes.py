@@ -36,6 +36,7 @@ def signup():
     if request.method == "POST":
         u = models.User()
         u.email = request.form['email']
+        u.name = request.form['name']
         u.password = request.form['password']
         u.cost = request.form['submit_cost']
         u.frequency = request.form['submit_frequency']
