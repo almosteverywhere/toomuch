@@ -38,8 +38,8 @@ app.secret_key = "this_is_a_secret_key_for_testing"
 if 'SECRET_KEY' in os.environ:
     app.secret_key = os.environ['SECRET_KEY']
 
-class ExampleForm(Form):
-    field1 = TextField('First Field', description='This is field one.')
+class SignupForm(Form):
+    field1 = TextField('First field', description='This is field one.')
     field2 = TextField('Second Field', description='This is field two.',
                        validators=[DataRequired()])
     hidden_field = HiddenField('You cannot see this', description='Nope')
@@ -52,12 +52,12 @@ def login_required(f):
         return f(*args, **kwargs)
     return decorated_function
 
-@app.route('/test_form', methods=('GET', 'POST',))
+@app.route('/signup', methods=('GET', 'POST',))
 def test_form():
-    form = ExampleForm()
+    form = SignupForm()
     if form.validate_on_submit():
         return "PASSED"
-    return render_template('example.html', form=form)
+    return render_template('signup.html', form=form)
 
 
 
