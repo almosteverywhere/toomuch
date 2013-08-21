@@ -3,9 +3,9 @@
 {% block content %}
 
 <p class="lead">{{ user.name }},</br>
-You paid {{ user.cost }}$ for your  {{ user.thingy|lower }}
-and you've used it: {{  user.frequency }} times </br>
-so your cost per use is <strong> {{ cost_per_use }}$.</strong> </p>
+You paid <span id="cost">{{ user.cost }}</span>$ for your  {{ user.thingy|lower }}
+and you've used it: <span id="frequency">{{  user.frequency }}</span> times </br>
+so your cost per use is <strong> <span id="cost_per_use">{{ cost_per_use }}</span>$.</strong> </p>
 
 <div id="update"><h2 class="muted"><a href="#">Update your times</a> and lower your cost per use!</h2>
 
@@ -14,7 +14,7 @@ so your cost per use is <strong> {{ cost_per_use }}$.</strong> </p>
 <P>How many more times have you used your thingy?</P>
 
 <form class="form-inline" method="post" action="update">
-        <input type="text" class="input-small" name="update_frequency" placeholder="X">
+        <input type="text" class="input-small" name="update_frequency" placeholder="+">
         <button type="submit" class="btn">Update</button>
     </form>
 

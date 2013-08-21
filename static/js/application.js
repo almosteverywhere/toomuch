@@ -12,6 +12,9 @@ $(document).ready(function() {
    var how_much = "";
    var how_many_times = "";
 
+    ////////////////////////////////////////
+    /// question animations
+
    $("#what button").click(function(event){
        event.preventDefault();
        //alert("click on next");
@@ -20,8 +23,9 @@ $(document).ready(function() {
        $(".thingy").text(what.toLowerCase());
        //alert(what);
        $("#what").fadeOut();
+       //$("#what").slideToggle();
        $("#how_much").removeClass("hidden");
-
+       //$("#how_much").slideToggle();
    });
 
     $("#how_much button").click(function(event){
@@ -64,9 +68,34 @@ $(document).ready(function() {
        $("input[name='submit_frequency']").val(how_many_times);
    });
 
+   /////////////////////////////////
+
    $("#update a").click(function(event){
 //      alert("update");
    $("#update_form").removeClass("hidden");
    });
+
+    $("#update_form button").click(function(event){
+       event.preventDefault();
+       var frequency = parseInt($("#frequency").text());
+       var mycost = parseFloat($("#cost").text());
+       var update_frequency = $("#update_form input[name='update_frequency']")
+       update_frequency = parseInt(update_frequency.val());
+       var new_frequency = frequency + update_frequency;
+       var new_cost_per_use = mycost / new_frequency;
+       $("#frequency").text(new_frequency);
+       $("#cost_per_use").text(new_cost_per_use);
+
+       // recalculate the cost per use
+
+       //send the info to the server.
+
+       //do validations
+
+
+       // alert(new_frequency);
+    });
+    // where the frequency lives
+   //
 
 });
