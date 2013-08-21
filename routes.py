@@ -168,18 +168,19 @@ def user():
 
 @app.route('/update', methods=["POST"])
 def update():
-    u = session['user']
+    email = session['email']
+    myuser = models.User.query.filter_by(email=email).first()
     add_times = int(request.form['update_frequency'])
     # TODO verify is number
-    times = int(u.frequency);
+    times = int(myuser.frequency);
     new_frequency = times + add_times;
     # should probs be an int to start
     # return str(new_frequency);
-    u.frequency = new_frequency;
-    models.db.session.add(u);
+    myuser.frequency = new_frequency;
+    models.db.session.add(myuser);
     models.db.session.commit();
-    session['user'] = u;
-    return render_template("user.html", user=u);
+    # will this reflect the updated change
+    return render_template("user.html", user=myuser);
 #
 @app.route('/week/')
 @login_required
