@@ -39,10 +39,14 @@ if 'SECRET_KEY' in os.environ:
     app.secret_key = os.environ['SECRET_KEY']
 
 class SignupForm(Form):
-    field1 = TextField('First field', description='This is field one.')
-    field2 = TextField('Second Field', description='This is field two.',
+
+    name = TextField('Name', description='Name.', validators=[DataRequired()])
+    email = TextField('Email', description='Email.', validators=[DataRequired()])
+    password = TextField('Password', description='Password.',
                        validators=[DataRequired()])
-    hidden_field = HiddenField('You cannot see this', description='Nope')
+    submit_thingy = HiddenField('hidden_field')
+    submit_cost = HiddenField('submit_cost')
+    submit_frequency = HiddenField('submit_frequency')
 
 def login_required(f):
     @wraps(f)
@@ -52,61 +56,77 @@ def login_required(f):
         return f(*args, **kwargs)
     return decorated_function
 
-@app.route('/signup', methods=('GET', 'POST',))
-def test_form():
-    form = SignupForm()
-    if form.validate_on_submit():
-        return "PASSED"
-    return render_template('signup.html', form=form)
-
-
-
+# @app.route('/signup', methods=['GET', 'POST'])
+# def test_form():
+#     form = SignupForm()
+#     if form.validate_on_submit():
+#         return "PASSED"
+#     return render_template('signup.html', form=form)
+#
 
 @app.route('/')
 def hello_world():
     return redirect('/first')
 
-
 @app.route('/first')
 def first():
-    return render_template("first.html")
+    form = SignupForm()
+    return render_template("first.html", form=form)
 
 @app.route('/signup', methods=["POST", "GET"])
 def signup():
+    form = SignupForm()
     if request.method == "GET":
-        return render_template("signup.html")
+        return render_template("signup.html", form=form)
     if request.method == "POST":
-        form = models.SignupForm(request)
-        if form.validate():
+        if form.validate_on_submit():
+
+            # check that user doesn't exist already
+            email = form.email.data
+            print "EMAIL OVER HERE"
+            myuser = models.User.query.filter_by(email=email).first()
+
+            if myuser:
+                flash("Email already exists. Is that you? Sign in or choose different name.", 'error')
+                return render_template("signup.html", form=form)
+
+            else:
+                u = models.User()
+                u.name = form.name.data
+                u.email = form.email.data
+                u.password = form.password.data
+                u.cost = form.submit_cost.data
+                u.frequency = form.submit_frequency.data
+                u.thingy = form.submit_thingy.data
+                models.db.session.add(u)
+                models.db.session.commit()
+                # FIXME: can we redirect to login instead of doing it again?
+                myuser = models.User.query.filter_by(email=u.email).first()
+                # session['user'] = myuser
+                session['email'] = u.email
+
+                flash("Thanks for signing up!", 'success')
+
+                return redirect(url_for('user'))
+
+        else:
+            return render_template("signup.html", form=form)
+
+            # FIXME: this has to be changed to use wtforms
 
             # u = models.User()
-            # u.email = request.form['email']
-            # u.name = request.form['name']
-            # u.password = request.form['password']
-            # u.cost = request.form['submit_cost']
-            # u.frequency = request.form['submit_frequency']
-            # u.thingy = request.form['submit_thingy']
+            # u.email = form.email.data
+            # u.name = form.name.data
+            # u.password = form.password.data
+            # u.cost = "100$"
+            # u.frequency = "10"
+            # u.thingy = "Gym membership"
             # models.db.session.add(u)
             # models.db.session.commit()
-            #
-            # # FIXME: can we redirect to login instead of doing it again?
             # myuser = models.User.query.filter_by(email=u.email).first()
             # session['user'] = myuser
             # flash("Thanks for signing up!", 'success')
             # return redirect(url_for('user'))
-            u = models.User()
-            u.email = form.email.data
-            u.name = form.name.data
-            u.password = form.password.data
-            u.cost = "100$"
-            u.frequency = "10"
-            u.thingy = "Gym membership"
-            models.db.session.add(u)
-            models.db.session.commit()
-            myuser = models.User.query.filter_by(email=u.email).first()
-            session['user'] = myuser
-            flash("Thanks for signing up!", 'success')
-            return redirect(url_for('user'))
 
 @app.route('/login', methods=["POST", "GET"])
 def login():
@@ -141,7 +161,9 @@ def logout():
 
 @app.route('/user')
 def user():
-    return render_template("user.html", user=session['user'])
+    print "we're in user"
+    myuser = models.User.query.filter_by(email=session['email']).first()
+    return render_template("user.html", user=myuser)
 
 
 @app.route('/update', methods=["POST"])
