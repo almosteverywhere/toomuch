@@ -34,8 +34,8 @@ db = SQLAlchemy(app)
 #         return "Hacker School Week #" + str(self.number)
 
 class User(db.Model):
-    name = db.Column(db.String(80),primary_key=True)
-    email = db.Column(db.String(80))
+    name = db.Column(db.String(80))
+    email = db.Column(db.String(80),primary_key=True)
     # do auth with fb or google instead
     password = db.Column(db.String(80))
     cost  = db.Column(db.String(80))

@@ -17,19 +17,12 @@
 
   </head>
 
- {% with messages = get_flashed_messages(with_categories=true) %}
-  {% if messages %}
-    <ul class=flashes>
-    {% for category, message in messages %}
-      <li class=text-"{{ category }}">{{ message }}</li>
-    {% endfor %}
-    </ul>
-  {% endif %}
-{% endwith %}
-
   <body>
 
   <div class="container-narrow">
+
+
+
       <div class="masthead">
         <ul class="nav nav-pills pull-right">
           <li class="active"><a href="#">Home</a></li>
@@ -42,10 +35,25 @@
            {%  endif %}
            </li>
         </ul>
-        <h3 class="muted">What is the cost-per-use of your fitness purchase?</h3>
       </div>
 
+       <h3 class="muted">What is the cost-per-use of your fitness purchase?</h3>
+
       <hr>
+
+       {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <div class=flashes>
+        {% for category, message in messages %}
+          <div class="alert alert-{{ category}}">
+          <button type="button" class="close" data-dismiss="alert">&times;</button>
+              {{ message }}
+          </div>
+        {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+
     {% block content %}{% endblock %}
    </div>
   </body>

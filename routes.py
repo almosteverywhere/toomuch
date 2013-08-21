@@ -163,7 +163,9 @@ def logout():
 def user():
     print "we're in user"
     myuser = models.User.query.filter_by(email=session['email']).first()
-    return render_template("user.html", user=myuser)
+    cost_per_use = float(myuser.cost) / float(myuser.frequency)
+    cost_per_use = "%.2f" % cost_per_use
+    return render_template("user.html", user=myuser, cost_per_use=cost_per_use)
 
 
 @app.route('/update', methods=["POST"])
@@ -180,7 +182,7 @@ def update():
     models.db.session.add(myuser);
     models.db.session.commit();
     # will this reflect the updated change
-    return render_template("user.html", user=myuser);
+    return new_frequency
 #
 @app.route('/week/')
 @login_required
