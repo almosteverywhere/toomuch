@@ -10,13 +10,6 @@ from wtforms import TextField, HiddenField, validators
 
 from wtforms.validators import DataRequired
 from flask.ext.bootstrap import Bootstrap
-# from flask.ext.wtf import Required
-
-##
-# from flask_wtf import Form
-# from wtforms.ext.sqlalchemy.orm import model_form
-# import requests, json
-# ##
 
 import models
 import os
@@ -32,7 +25,6 @@ app.config['BOOTSTRAP_USE_MINIFIED'] = True
 app.config['BOOTSTRAP_USE_CDN'] = True
 app.config['BOOTSTRAP_FONTAWESOME'] = True
 app.config['SECRET_KEY'] = 'devkey'
-
 
 app.secret_key = "this_is_a_secret_key_for_testing"
 if 'SECRET_KEY' in os.environ:
@@ -80,17 +72,17 @@ def signup():
         return render_template("signup.html", form=form)
     if request.method == "POST":
         if form.validate_on_submit():
-
             # check that user doesn't exist already
             email = form.email.data
-            print "EMAIL OVER HERE"
             myuser = models.User.query.filter_by(email=email).first()
 
             if myuser:
+                # TODO: this should be ajax?
                 flash("Email already exists. Is that you? Sign in or choose different name.", 'error')
                 return render_template("signup.html", form=form)
 
             else:
+                # create the user
                 u = models.User()
                 u.name = form.name.data
                 u.email = form.email.data
@@ -110,28 +102,14 @@ def signup():
                 return redirect(url_for('user'))
 
         else:
+            flash("Form is not validating, how do we get right error?", "error")
             return render_template("signup.html", form=form)
 
-            # FIXME: this has to be changed to use wtforms
-
-            # u = models.User()
-            # u.email = form.email.data
-            # u.name = form.name.data
-            # u.password = form.password.data
-            # u.cost = "100$"
-            # u.frequency = "10"
-            # u.thingy = "Gym membership"
-            # models.db.session.add(u)
-            # models.db.session.commit()
-            # myuser = models.User.query.filter_by(email=u.email).first()
-            # session['user'] = myuser
-            # flash("Thanks for signing up!", 'success')
-            # return redirect(url_for('user'))
 
 @app.route('/login', methods=["POST", "GET"])
 def login():
     if request.method == "GET":
-        return render_template("login.html")
+        return render_template("login2.html")
 
     if request.method == "POST":
 
@@ -145,13 +123,13 @@ def login():
         if myuser and myuser.password == password:
         # session['email'] = email
         # session['password'] = password
-            session['user'] = myuser
-            flash(u"You were successfully logged in.", 'error')
+            # session['user'] = myuser
+            session['email'] = email
+            flash(u"You were successfully logged in.", 'success')
             return redirect(url_for('user'))
 
         else:
-            error = "Invalid user or password."
-            return render_template("login.html", error=error)
+            flash(u"Invalid user or password.", 'error')
 
 @app.route('/logout')
 def logout():
@@ -207,41 +185,6 @@ def update():
 
 
 
-#
-@app.route('/week/')
-@login_required
-def index():
-    #get all the weeks
-    w = models.Week.query.filter(models.Week.user_email == session['email']).all()
-    return render_template("index.html", weeks=w)
-
-@app.route('/week/new', methods=["POST", "GET"])
-@login_required
-def new_week():
-    if request.method == "GET":
-        return render_template("new_week.html")
-    elif request.method == "POST":
-        w = models.Week()
-        w.number = int(request.form['number'])
-        goal_number = int(request.form['goal_number'])
-        w.user_email = session['email']
-        models.db.session.add(w)
-        models.db.session.commit()
-
-        # create this num of pairings associated with this week
-        # can probably be more db efficient
-        for i in range(0, goal_number):
-            p = models.Pairing()
-            p.week_id = w.id
-            p.done = False
-            # Change me when we have users
-            p.person = "Julie"
-            models.db.session.add(p)
-            models.db.session.commit()
-
-        return render_template("week.html", week=w)
-        # return "you want to pair " + str(goal_number) + "times!"
-        # return "we posted some stuff"
 
 ## show a given week
 ## then show with its pairings
