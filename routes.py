@@ -181,8 +181,32 @@ def update():
     myuser.frequency = new_frequency;
     models.db.session.add(myuser);
     models.db.session.commit();
+    #FIXME: probably better way to do this
+    cost_per_use = float(myuser.cost) / float(myuser.frequency)
+    cost_per_use = "%.2f" % cost_per_use
+    return render_template("user.html", user=myuser, cost_per_use=cost_per_use)
     # will this reflect the updated change
-    return new_frequency
+
+# # new ajaxy updated
+# @app.route('/update', methods=["POST"])
+# def update(add_frequency):
+#     print "add frequency " + add_frequency
+#     email = session['email']
+#     myuser = models.User.query.filter_by(email=email).first()
+#     add_times = add_frequency
+#     # TODO verify is number
+#     times = int(myuser.frequency);
+#     new_frequency = times + add_times;
+#     # should probs be an int to start
+#     # return str(new_frequency);
+#     myuser.frequency = new_frequency;
+#     models.db.session.add(myuser);
+#     models.db.session.commit();
+#     # will this reflect the updated change
+#     return new_frequency
+
+
+
 #
 @app.route('/week/')
 @login_required

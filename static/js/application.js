@@ -75,18 +75,30 @@ $(document).ready(function() {
    $("#update_form").removeClass("hidden");
    });
 
-    $("#update_form button").click(function(event){
-       event.preventDefault();
-       var frequency = parseInt($("#frequency").text());
-       var mycost = parseFloat($("#cost").text());
-       var update_frequency = $("#update_form input[name='update_frequency']")
-       update_frequency = parseInt(update_frequency.val());
-       var new_frequency = frequency + update_frequency;
-       var new_cost_per_use = mycost / new_frequency;
-       $("#frequency").text(new_frequency);
-       $("#cost_per_use").text(new_cost_per_use);
+//    $("#update_form button").click(function(event){
+//       event.preventDefault();
+//       var frequency = parseInt($("#frequency").text());
+//       var mycost = parseFloat($("#cost").text());
+//       var update_frequency = $("#update_form input[name='update_frequency']")
+//       update_frequency = parseInt(update_frequency.val());
+//       var new_frequency = frequency + update_frequency;
+////       var new_cost_per_use = mycost / new_frequency;
+////       $("#frequency").text(new_frequency);
+////       $("#cost_per_use").text(new_cost_per_use);
+//
+//       //# update method needs to be updated
+////       $.post('/update', new_frequency, function(data) {
+////           alert("we updated some stuff");
+////       });
+//
+//       $.ajax({
+//    type: "POST",
+//    url: '/update',
+//    data: new_frequency,
+//    success: function(event) {},
+//    dataType: text
+//    });
 
-       // recalculate the cost per use
 
        //send the info to the server.
 
@@ -94,7 +106,7 @@ $(document).ready(function() {
 
 
        // alert(new_frequency);
-    });
+//    });
     // where the frequency lives
    //
 
