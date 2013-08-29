@@ -3,7 +3,7 @@
 # print sys.modules
 from flask import Flask, render_template, flash, jsonify, request, redirect, session, url_for, g
 from functools import wraps
-import requests, json
+# import requests, json
 
 from flask_wtf import Form
 from wtforms import TextField, HiddenField, validators
