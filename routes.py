@@ -1,6 +1,3 @@
-# print dir()
-# import sys
-# print sys.modules
 from flask import Flask, render_template, flash, jsonify, request, redirect, session, url_for, g
 from functools import wraps
 
@@ -102,7 +99,6 @@ def login():
         return render_template("login2.html")
 
     if request.method == "POST":
-
         email = request.form['email']
         password = request.form['password']
 
@@ -119,7 +115,9 @@ def login():
             return redirect(url_for('user'))
 
         else:
-            flash(u"Invalid user or password.", 'error')
+            # return "this user doesnt' exist"
+            flash(u"Oops. Who are you? Did you misstype your password or username?", 'error')
+            return render_template("login2.html")
 
 @app.route('/logout')
 def logout():
@@ -129,7 +127,6 @@ def logout():
 
 @app.route('/user')
 def user():
-    print "we're in user"
     myuser = models.User.query.filter_by(email=session['email']).first()
     cost_per_use = float(myuser.cost) / float(myuser.frequency)
     cost_per_use = "%.2f" % cost_per_use
@@ -175,6 +172,5 @@ def update():
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
+    app.debug = True
     app.run(host='0.0.0.0', port=port)
-    # app.debug = True
-    # app.run()
