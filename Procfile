@@ -1,2 +1,2 @@
 web: python routes.py
-init: python db_create.py 
+init: python new_db.py 
