@@ -5,7 +5,7 @@ import os
 
 app = Flask(__name__)
 if os.environ.get('DATABASE_URL'):
-     SQLALCHEMY_DATABASE_URI = os.environ['DATABASE_URL']
+    app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
 else: 
    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://localhost/tdh' 
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://localhost/tdh'
