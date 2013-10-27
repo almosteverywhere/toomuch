@@ -4,8 +4,12 @@ from wtforms import Form, TextField, validators
 import os
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
-db = SQLAlchemy(app)
+if os.environ.get('DATABASE_URL'):
+     SQLALCHEMY_DATABASE_URI = os.environ['DATABASE_URL']
+else: 
+   app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://localhost/tdh' 
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://localhost/tdh'
+db = SQLAlchemy(app)    
 
 class User(db.Model):
     name = db.Column(db.String(80))
