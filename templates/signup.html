@@ -2,7 +2,6 @@
 {% import "bootstrap_wtf.html" as wtf %}
 {% block content %}
 
-
 <form class="form form-horizontal" method="post" action="signup">
             {{ form.hidden_tag() }}
             {{ wtf.form_errors(form, False) }}
@@ -18,4 +17,3 @@
           </form>
 
 {%  endblock %}
-

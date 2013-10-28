@@ -7,9 +7,8 @@ from wtforms import TextField, PasswordField, HiddenField, validators
 from wtforms.validators import DataRequired
 from flask.ext.bootstrap import Bootstrap
 
-import models
-import os
-from flask_sslify import SSLify
+import models, os
+# from flask_sslify import SSLify
 
 app = Flask(__name__)
 # SSLify(app)
@@ -64,7 +63,6 @@ def signup():
             myuser = models.User.query.filter_by(email=email).first()
 
             if myuser:
-                # TODO: this should be ajax?
                 flash("Email already exists. Is that you? Sign in or choose different name.", 'error')
                 return render_template("signup.html", form=form)
 
@@ -81,7 +79,6 @@ def signup():
                 models.db.session.commit()
                 # FIXME: can we redirect to login instead of doing it again?
                 myuser = models.User.query.filter_by(email=u.email).first()
-                # session['user'] = myuser
                 session['email'] = u.email
 
                 flash("Thanks for signing up!", 'success')
@@ -89,7 +86,7 @@ def signup():
                 return redirect(url_for('user'))
 
         else:
-            flash("Form is not validating, how do we get right error?", "error")
+            flash("Form is not validating, this should be a better error", "error")
             return render_template("signup.html", form=form)
 
 
@@ -105,17 +102,12 @@ def login():
         # do we know this person?
         myuser = models.User.query.filter_by(email=email).first()
 
-        # FIXME: what if myuser is null
         if myuser and myuser.password == password:
-        # session['email'] = email
-        # session['password'] = password
-            # session['user'] = myuser
             session['email'] = email
             flash(u"You were successfully logged in.", 'success')
             return redirect(url_for('user'))
 
         else:
-            # return "this user doesnt' exist"
             flash(u"Oops. Who are you? Did you misstype your password or username?", 'error')
             return render_template("login2.html")
 
@@ -124,14 +116,12 @@ def logout():
     session.clear()
     return redirect(url_for("login"))
 
-
 @app.route('/user')
 def user():
     myuser = models.User.query.filter_by(email=session['email']).first()
     cost_per_use = float(myuser.cost) / float(myuser.frequency)
     cost_per_use = "%.2f" % cost_per_use
     return render_template("user.html", user=myuser, cost_per_use=cost_per_use)
-
 
 @app.route('/update', methods=["POST"])
 def update():
@@ -148,27 +138,7 @@ def update():
     cost_per_use = float(myuser.cost) / float(myuser.frequency)
     cost_per_use = "%.2f" % cost_per_use
     return render_template("user.html", user=myuser, cost_per_use=cost_per_use)
-    # will this reflect the updated change
-
-# # new ajaxy updated
-# @app.route('/update', methods=["POST"])
-# def update(add_frequency):
-#     print "add frequency " + add_frequency
-#     email = session['email']
-#     myuser = models.User.query.filter_by(email=email).first()
-#     add_times = add_frequency
-#     # TODO verify is number
-#     times = int(myuser.frequency);
-#     new_frequency = times + add_times;
-#     # should probs be an int to start
-#     # return str(new_frequency);
-#     myuser.frequency = new_frequency;
-#     models.db.session.add(myuser);
-#     models.db.session.commit();
-#     # will this reflect the updated change
-#     return new_frequency
-
-
+    
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
     app.debug = True

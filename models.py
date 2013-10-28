@@ -8,7 +8,6 @@ if os.environ.get('DATABASE_URL'):
     app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
 else: 
    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://localhost/tdh' 
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://localhost/tdh'
 db = SQLAlchemy(app)    
 
 class User(db.Model):
