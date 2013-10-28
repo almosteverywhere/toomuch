@@ -2,7 +2,7 @@ from flask import Flask, render_template, flash, jsonify, request, redirect, ses
 from functools import wraps
 
 from flask_wtf import Form
-from wtforms import TextField, HiddenField, validators
+from wtforms import TextField, PasswordField, HiddenField, validators
 
 from wtforms.validators import DataRequired
 from flask.ext.bootstrap import Bootstrap
@@ -28,7 +28,7 @@ if 'SECRET_KEY' in os.environ:
 class SignupForm(Form):
     name = TextField('Name',validators=[DataRequired()])
     email = TextField('Email', validators=[DataRequired()])
-    password = TextField('Password',
+    password = PasswordField('Password',
                        validators=[DataRequired()])
     submit_thingy = HiddenField('hidden_field')
     submit_cost = HiddenField('submit_cost')

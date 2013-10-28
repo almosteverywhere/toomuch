@@ -15,6 +15,7 @@ class User(db.Model):
     name = db.Column(db.String(80))
     email = db.Column(db.String(80),primary_key=True)
     # do auth with fb or google instead
+    # this is totally not secure. 
     password = db.Column(db.String(80))
     cost  = db.Column(db.String(80))
     frequency = db.Column(db.String(80))
